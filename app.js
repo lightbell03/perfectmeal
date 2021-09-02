@@ -47,9 +47,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = function(app){
-  app.use(createProxyMiddleware('/users', {
-    target: "http//192.168.45.52:3000",
-    changeOrigin: true,
-  }));
-};
+module.exports = app;
