@@ -12,7 +12,7 @@ var con = mysql.createConnection({
 
 router.use(
   createProxyMiddleware("/users", {
-    target: "https://192.168.45.52:3000/",
+    target: "https://192.168.45.52:3000",
     changeOrigin: true,
   })
 );
