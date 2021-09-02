@@ -28,11 +28,12 @@ router.post('/', function(req, res, next) {
     });
 });
 
-module.exports = function(router) {
-  router.use (
-    createProxyMiddleware("/register", {
-      target: "http://localhost:3000",
-      changeOrigin: true,
-    })
-  );
-};
+module.exports = router;
+//module.exports = function(router) {
+//  router.use (
+//    createProxyMiddleware("/register", {
+//      target: "https://localhost:3000",
+//      changeOrigin: true,
+//    })
+//  );
+//};
