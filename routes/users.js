@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
 module.exports = function(router) {
   router.use(
     createProxyMiddleware("/users", {
-      target: "https://localhost:3000",
+      target: "https://192.168.45.52:3000",
       changeOrigin: true,
     })
   );
