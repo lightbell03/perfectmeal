@@ -1,4 +1,5 @@
 var express = require("express");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 var router = express.Router();
 var mysql = require("mysql");
 
@@ -27,4 +28,11 @@ router.post('/', function(req, res, next) {
     });
 });
 
-module.exports = router;
+module.exports = function(router) {
+  router.use (
+    createProxyMiddleware("/register", {
+      target: "http://localhost:3000",
+      changeOrigin: true,
+    })
+  );
+};
