@@ -30,8 +30,8 @@ router.post('/', function(req, res, next) {
 
 //module.exports = router;
 module.exports = function(router) {
-  router.use (
-    createProxyMiddleware("/register", {
+  router.use(
+    createProxyMiddleware("/users", {
       target: "https://localhost:3000",
       changeOrigin: true,
     })
