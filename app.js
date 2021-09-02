@@ -10,7 +10,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var registerRouter = require('./routes/register');
 var receiveImageRouter = require("./routes/receive_image");
-const { createProxyMiddleware } = require('http-proxy-middleware');
 
 var app = express();
 

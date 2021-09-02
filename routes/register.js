@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var mysql = require("mysql");
+var proxyMiddleware = require("http-proxy-middleware");
 
 var con = mysql.createConnection({
     host: "localhost",
