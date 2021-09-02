@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var registerRouter = require('./routes/register');
 var receiveImageRouter = require("./routes/receive_image");
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 var app = express();
 
@@ -46,4 +47,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = function(app){
+  app.use(createProxyMiddleware('/users', {
+    target: "http//192.168.45.52:3000",
+    changeOrigin: true,
+  }));
+};
