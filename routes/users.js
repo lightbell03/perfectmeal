@@ -17,7 +17,7 @@ var con = mysql.createConnection({
 //  })
 //);
 
-router.post('/', function(req, res, next) {
+router.post('/', function(req, res) {
     var userEmail = req.body.email;
     var password = req.body.password;
 
