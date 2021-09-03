@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
   var userEmail = req.body.email;
   var password = req.body.password;
   var test = "hello world";
-  res.write("<h1>"+userEmail+"<h1>");
+  res.write("<h1>"+test+"<h1>");
 });
 
 module.exports = router;
