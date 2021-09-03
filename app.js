@@ -55,11 +55,11 @@ app.use(function(err, req, res, next) {
 //);
 
 module.exports = app;
-//module.exports = function(app){
-//  app.use(
-//    createProxyMiddleware('/', {
-//      target: "http://localhost:3000/",
-//      changeOrigin: true
-//    })
-//  );
-//};
+module.exports = function(app){
+  app.use(
+    createProxyMiddleware('/', {
+      target: "http://localhost:3000/",
+      changeOrigin: true
+    })
+  );
+};
