@@ -7,6 +7,7 @@ router.get('/', function(req, res, next) {
   var password = req.body.password;
   var test = "hello world";
   res.write("<h1>"+userEmail+"<h1>");
+  res.send({test: "test"});
 });
 
 module.exports = router;
