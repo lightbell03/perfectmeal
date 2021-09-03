@@ -5,7 +5,8 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   var userEmail = req.body.email;
   var password = req.body.password;
-  res.write("<h1>test</h1>");
+  var test = "hello world";
+  res.write(test);
   //res.render('index', { title: 'Express' });
 });
 
