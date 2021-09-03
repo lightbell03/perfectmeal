@@ -10,12 +10,12 @@ var con = mysql.createConnection({
     database: "db_test"
 });
 
-router.use(
-  createProxyMiddleware("/users", {
-    target: "https://192.168.45.52:3000",
-    changeOrigin: true,
-  })
-);
+//router.use(
+//  createProxyMiddleware("/users", {
+//    target: "https://192.168.45.52:3000",
+//    changeOrigin: true,
+//  })
+//);
 
 router.post('/', function(req, res, next) {
     var userEmail = req.body.email;
