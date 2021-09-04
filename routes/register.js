@@ -3,12 +3,12 @@ var router = express.Router();
 var mysql = require("mysql");
 var proxyMiddleware = require("http-proxy-middleware");
 
-//var con = mysql.createConnection({
-//    host: "us-cdbr-east-04.cleardb.com",
-//    user: "b279a5641ab7e3",
-//    password: "2c01f496",
-//    database: "heroku_828ebb76607f724"
-//});
+var con = mysql.createConnection({
+    host: "us-cdbr-east-04.cleardb.com",
+    user: "b279a5641ab7e3",
+    password: "2c01f496",
+    database: "heroku_828ebb76607f724"
+});
 //
 //router.post('/', function(req, res) {
 //    var userEmail = req.body.email;
