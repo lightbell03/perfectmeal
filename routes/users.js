@@ -17,26 +17,31 @@ var con = mysql.createConnection({
 //  })
 //);
 
-router.post('/', function(res, res) {
-    var userEmail = req.body.email;
-    var password = req.body.password;
+//router.post('/', function(req, res) {
+//    var userEmail = req.body.email;
+//    var password = req.body.password;
+//
+//    con.query("SELECT * FROM db_test WHERE email = ? AND password = ?", [userEmail, password], function(err, row) {
+//        if(err) {
+//          res.write("test");
+//          res.send({status: 'fail'});
+//          console.log(err);
+//        }
+//
+//        if(row.length > 0){
+//          console.log("success");
+//          res.send({status: 'success', email: userEmail});
+//        }else{
+//          console.log("fail");
+//          //res.send({"success": 'success', "message": "User not found, please try again"});
+//          res.send({status: 'fail'});
+//        }
+//    });
+//});
 
-    con.query("SELECT * FROM db_test WHERE email = ? AND password = ?", [userEmail, password], function(err, row) {
-        if(err) {
-          res.write("test");
-          res.send({status: 'fail'});
-          console.log(err);
-        }
-
-        if(row.length > 0){
-          console.log("success");
-          res.send({status: 'success', email: userEmail});
-        }else{
-          console.log("fail");
-          //res.send({"success": 'success', "message": "User not found, please try again"});
-          res.send({status: 'fail'});
-        }
-    });
-});
-
+router.get('/', function(req, res){
+  var test = "test";
+  res.write("<h1>"+ test + "</h1>");
+  res.send({status: "success"});
+})
 module.exports = router;
