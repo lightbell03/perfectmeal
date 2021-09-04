@@ -14,7 +14,7 @@ var proxyMiddleware = require("http-proxy-middleware");
 //    var userEmail = req.body.email;
 //    var password = req.body.password;
 //    var userName = req.body.name;
-//    var userAge = req.body.age;
+//    var userAge = req. body.age;
 //    var userAddress = req.body.address;
 //
 //    con.query("SELECT * FROM db_test WHERE email = (?)", [userEmail], function(err, row){
@@ -50,5 +50,8 @@ var proxyMiddleware = require("http-proxy-middleware");
 //        }
 //    });
 //});
+router.post("/", function(req, res){
+    res.send({status: "success"});
+})
 
 module.exports = router;

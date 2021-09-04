@@ -35,31 +35,34 @@ router.use(bodyParser.json({limit: '15MB'}));
 
 //const upload = multer({storage: storage});
 
-router.post('/', function(req, res, next) {
-	let user = req.body.user;
-	let dataString = "";
-	let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-	const python = spawn('python', ['./routes/index.py']);
-	res.send({status: "success"});
-	python.stdout.on('data', function(data) {
-	dataString = data.toString();
-	let foodArray = dataString.split("\r\n");
-	for(var i=0; i<foodArray.length - 1; i++){
-		con.query("UPDATE use_food_db SET food" + (i+1) + " = " + "'" + foodArray[i] + "'" + " WHERE email = ?", [user], function(err){
-			if(err){
-				console.log(err);
-				res.send({status: 'fail'});
-			}
-		});
-	}
-	fs.writeFile('./images/out.png', req.body.imgsource, 'base64', (image_save_err) => {
-		if (image_save_err) console.log("Test");
-	});
-	res.send({status: 'success', food: dataString});
-	);
-	ython.stdin.write(JSON.stringify(data));
-	ython.stdin.end();
-});
+//router.post('/', function(req, res, next) {
+//	let user = req.body.user;
+//	let dataString = "";
+//	let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+//
+//	const python = spawn('python', ['./routes/index.py']);
+//
+//	python.stdout.on('data', function(data) {
+//	dataString = data.toString();
+//	let foodArray = dataString.split("\r\n");
+//	for(var i=0; i<foodArray.length - 1; i++){
+//		con.query("UPDATE use_food_db SET food" + (i+1) + " = " + "'" + foodArray[i] + "'" + " WHERE email = ?", [user], function(err){
+//			if(err){
+//				console.log(err);
+//				res.send({status: 'fail'});
+//			}
+//		});
+//	}
+//	fs.writeFile('./images/out.png', req.body.imgsource, 'base64', (image_save_err) => {
+//		if (image_save_err) console.log("Test");
+//	});
+//	res.send({status: 'success', food: dataString});
+//	});
+//	python.stdin.write(JSON.stringify(data));
+//	python.stdin.end();
+//});
+router.post("/", function(req, res) {
+	res.send({status : "success"});
+})
 
 module.exports = router;
