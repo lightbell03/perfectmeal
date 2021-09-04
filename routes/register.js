@@ -3,12 +3,12 @@ var router = express.Router();
 var mysql = require("mysql");
 var proxyMiddleware = require("http-proxy-middleware");
 
-//var con = mysql.createConnection({
-//    host: "localhost",
-//    user: "root",
-//    password: "Lightbell03!",
-//    database: "db_test",
-//});
+var con = mysql.createConnection({
+    host: "us-cdbr-east-04.cleardb.com",
+    user: "b279a5641ab7e3",
+    password: "2c01f496",
+    database: "heroku_828ebb76607f724"
+});
 
 router.post('/', function(req, res, next) {
     console.log(req.body);
@@ -20,41 +20,41 @@ router.post('/', function(req, res, next) {
     var userAddress = req.body.address;
 
     res.send({status: "test"});
-    //con.query("SELECT * FROM db_test WHERE email = (?)", [userEmail], function(err, row){
-    //    if(err) {
-    //        console.log("register error");
-    //        console.log(err);
-    //    }
-    //    
-    //    if(row.length == 0){
-    //        con.query("INSERT INTO db_test (name, password, email, age, address) VALUES (?, ?, ?, ?, ?)",
-    //            [userName, password, userEmail, userAge, userAddress], function(regi_err) {
-    //            if(regi_err) {
-    //                console.log("test1");
-    //                res.send({status: 'fail1'});
-    //            }
-    //            else {
-    //                con.query("CREATE TABLE " + userEmail + "_food_db (date DATE NOT NULL,  food1 VARCHAR(45) NULL, food2 VARCHAR(45) NULL, food3 VARCHAR(45) NULL, food4 VARCHAR(45) NULL,food5 VARCHAR(45) NULL, PRIMARY KEY (date))", function(err){
-    //                    if(err) {
-    //                        console.log(err);
-    //                        console.log("make user food db fail")
-    //                        con.query("DELETE FROM db_test WHERE email = " + userEmail);
-    //                        res.send({status: 'fail2'});
-    //                    }
-    //                    else{
-    //                        console.log("register success");
-    //                        res.send({status: 'success'});
-    //                    }
-    //                });
-    //            }
-    //        });
-    //    }
-    //    else{
-    //        console.log("email duplicate")
-    //        console.log(regi_err);
-    //        res.send({status: 'email duplicate'});
-    //    }
-    //});
+    con.query("SELECT * FROM db_test WHERE email = (?)", [userEmail], function(err, row){
+        if(err) {
+            console.log("register error");
+            console.log(err);
+        }
+        
+        if(row.length == 0){
+            con.query("INSERT INTO db_test (name, password, email, age, address) VALUES (?, ?, ?, ?, ?)",
+                [userName, password, userEmail, userAge, userAddress], function(regi_err) {
+                if(regi_err) {
+                    console.log("test1");
+                    res.send({status: 'fail1'});
+                }
+                else {
+                    con.query("CREATE TABLE " + userEmail + "_food_db (date DATE NOT NULL,  food1 VARCHAR(45) NULL, food2 VARCHAR(45) NULL, food3 VARCHAR(45) NULL, food4 VARCHAR(45) NULL,food5 VARCHAR(45) NULL, PRIMARY KEY (date))", function(err){
+                        if(err) {
+                            console.log(err);
+                            console.log("make user food db fail")
+                            con.query("DELETE FROM db_test WHERE email = " + userEmail);
+                            res.send({status: 'fail2'});
+                        }
+                        else{
+                            console.log("register success");
+                            res.send({status: 'success'});
+                        }
+                    });
+                }
+            });
+        }
+        else{
+            console.log("email duplicate")
+            console.log(regi_err);
+            res.send({status: 'email duplicate'});
+        }
+    });
 });
 
 module.exports = router;
