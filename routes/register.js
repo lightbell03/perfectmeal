@@ -10,9 +10,7 @@ var con = mysql.createConnection({
     database: "heroku_828ebb76607f724"
 });
 
-router.post('/', function(req, res, next) {
-    console.log(req.body);
-
+router.post('/', function(req, res) {
     var userEmail = req.body.email;
     var password = req.body.password;
     var userName = req.body.name;
@@ -37,8 +35,6 @@ router.post('/', function(req, res, next) {
                     con.query("CREATE TABLE " + userEmail + "_food_db (date DATE NOT NULL,  food1 VARCHAR(45) NULL, food2 VARCHAR(45) NULL, food3 VARCHAR(45) NULL, food4 VARCHAR(45) NULL,food5 VARCHAR(45) NULL, PRIMARY KEY (date))", function(err){
                         if(err) {
                             console.log(err);
-                            console.log("make user food db fail")
-                            con.query("DELETE FROM db_test WHERE email = " + userEmail);
                             res.send({status: 'fail2'});
                         }
                         else{
@@ -50,7 +46,6 @@ router.post('/', function(req, res, next) {
             });
         }
         else{
-            console.log("email duplicate")
             console.log(regi_err);
             res.send({status: 'email duplicate'});
         }

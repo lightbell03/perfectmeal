@@ -10,13 +10,6 @@ var con = mysql.createConnection({
     database: "heroku_828ebb76607f724"
 });
 
-//router.use(
-//  createProxyMiddleware("/users", {
-//    target: "https://192.168.45.52:3000",
-//    changeOrigin: true,
-//  })
-//);
-
 router.post('/', function(req, res) {
     var userEmail = req.body.email;
     var password = req.body.password;
@@ -33,7 +26,6 @@ router.post('/', function(req, res) {
           res.send({status: 'success', email: userEmail});
         }else{
           console.log("fail");
-          //res.send({"success": 'success', "message": "User not found, please try again"});
           res.send({status: 'fail'});
         }
     });
