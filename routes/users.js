@@ -5,7 +5,7 @@ var mysql = require("mysql");
 
 var con = mysql.createConnection({
     host: "us-cdbr-east-04.cleardb.com",
-    user: "b279a5641ab7e3",
+    user: "b279a5641ab7e3", 
     password: "2c01f496",
     database: "heroku_828ebb76607f724"
 });
@@ -13,6 +13,8 @@ var con = mysql.createConnection({
 router.post('/', function(req, res) {
     var userEmail = req.body.email;
     var password = req.body.password;
+    
+    res.send({status: "success"});
 
     con.query("SELECT * FROM db_test WHERE email = ? AND password = ?", [userEmail, password], function(err, row) {
         if(err) {
