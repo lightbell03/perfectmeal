@@ -7,12 +7,12 @@ const mysql = require("mysql");
 
 const router = express.Router();
 
-//const con = mysql.createConnection({
-//	host: "localhost",
-//	user: "root",
-//	password: "Lightbell03!",
-//	database: "db_test"
-//});
+const con = mysql.createConnection({
+	host: "localhost",
+	user: "root",
+	password: "Lightbell03!",
+	database: "db_test"
+});
 
 router.use(bodyParser.urlencoded({limit: '15MB', extended: true}));
 router.use(bodyParser.json({limit: '15MB'}));
