@@ -16,7 +16,7 @@ router.post('/', function(req, res) {
     
     con.query("SELECT * FROM db_test WHERE email = ? AND password = ?", [userEmail, password], function(err, row) {
         if(err) {
-          res.send({status: 'fail'});
+          res.send({status: 'fail1'});
           console.log(err);
         }
 
@@ -25,7 +25,7 @@ router.post('/', function(req, res) {
           res.send({status: 'success', email: userEmail});
         }else{
           console.log("fail");
-          res.send({status: 'fail'});
+          res.send({status: 'fail2'});
         }
     });
 });
