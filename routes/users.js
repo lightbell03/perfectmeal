@@ -41,7 +41,7 @@ var con = mysql.createConnection({
 
 router.get('/', function(req, res){
   var test = "test";
-  res.write("<h1>"+ test + "</h1>");
+  res.write("<h1>" + test + "</h1>");
   res.send({status: "success"});
 })
 module.exports = router;
