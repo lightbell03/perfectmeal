@@ -10,14 +10,14 @@ router.post('/', async (req, res) => {
     var user = req.body.userEmail;
 
     const [todayTotalNutriRows] = ['heelo'];
-    const [todayBfNutriRows]
-    const [todayLnNutriRows]
-    const [todayDnNutriRows]
-    const [todayEtNutriRows]
-    const [todayBfFoodRows]
-    const [todayLnFoodRows] 
-    const [todayDnFoodRows] 
-    const [todayEtFoodRows] 
+    const [todayBfNutriRows] = [];
+    const [todayLnNutriRows]= [];
+    const [todayDnNutriRows]= [];
+    const [todayEtNutriRows]= [];
+    const [todayBfFoodRows]= [];
+    const [todayLnFoodRows] = [];
+    const [todayDnFoodRows] = [];
+    const [todayEtFoodRows] = [];
     try {
         const con = await pool.getConnection(async conn => conn);
     
