@@ -25,7 +25,13 @@ router.post('/', async (req, res) => {
                 const [todayLnFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'lunch'`);
                 const [todayDnFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'dinner'`);
                 const [todayEtFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'etc'`);
+                
+                if(todayTotalNutriRows.length === 0){
+                    res.send({status: 'success', totalNutri: [], breakfast: undefined, lunch: undefined, dinner: undefined, etc: undefined,
+                    breakfastNutri: undefined, lunchNutri: undefined, dinnerNutri: undefined, etcNutri: undefined});
 
+                    return;
+                }
                 let sendData = [];
                 for(let key in todayTotalNutriRows[0]){
                     if(key === 'division' || key === 'date')
