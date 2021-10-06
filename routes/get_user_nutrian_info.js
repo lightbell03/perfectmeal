@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
                 sendData = null;
             }
             else{
-
+                
             }
         } catch(err){
             console.log('DB error');
@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
         }
     } catch(err) {
         console.log("db error");
-        res.send({status: 'db error'});
+        res.send({status: err});
         return false;
     }
 });
