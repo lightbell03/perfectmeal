@@ -166,7 +166,8 @@ router.post('/', async (req, res) => {
 
     try{
         const con = await pool.getConnection(async conn => conn);
-
+        if(con === null)
+            throw con;
         try{
             const [foodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE (division, date) = ('${division}', ${today})`);
             
@@ -234,7 +235,7 @@ router.post('/', async (req, res) => {
     }catch(err){
         console.log("db error");
         console.log(err);
-        res.send({status: 'fail2'});
+        res.send({status: con});
     }
 });
 
