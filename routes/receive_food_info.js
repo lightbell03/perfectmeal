@@ -229,12 +229,12 @@ router.post('/', async (req, res) => {
         }catch(err){
             console.log("query error");
             console.log(err);
-            res.send({state: 'fail'});
+            res.send({state: 'fail1'});
         }
     }catch(err){
         console.log("db error");
         console.log(err);
-        res.send({status: 'fail'});
+        res.send({status: 'fail2'});
     }
 });
 
