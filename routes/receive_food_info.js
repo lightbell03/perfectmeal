@@ -156,7 +156,7 @@ router.post('/', async (req, res) => {
     const food = req.body.food;
     const user = req.body.user;
     const sqlInput = [division, today];
-
+    const con;
     for(let i = 0; i < food.length; i++){
         sqlInput.push(food[i]);
     }
@@ -165,9 +165,8 @@ router.post('/', async (req, res) => {
     }
 
     try{
-        const con = await pool.getConnection(async conn => conn);
-        if(con === null)
-            throw con;
+        con = await pool.getConnection(async conn => conn);
+        
         try{
             const [foodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE (division, date) = ('${division}', ${today})`);
             
