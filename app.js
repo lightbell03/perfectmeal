@@ -3,16 +3,23 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var mysql = require("mysql");
 var bodyParser = require('body-parser');
+
+var app = express();
+
+//var server = require('http').createServer(app);
+//var io = require('socket.io')(server);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var registerRouter = require('./routes/register');
 var receiveImageRouter = require("./routes/receive_image");
-const { createProxyMiddleware } = require('http-proxy-middleware');
+var receiveFoodInfoRouter = require("./routes/receive_food_info");
+var receiveRaspberryPiRouter = require("./routes/raspberryPi");
+var registSerialNumberRouter = require("./routes/regist_serial_number");
+var getUserNutrianInfoRouter = require("./routes/get_user_nutrian_info");
 
-var app = express();
+const con = require('./routes/sqlcon');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,6 +37,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/register', registerRouter);
 app.use('/receive_image', receiveImageRouter);
+app.use('/receive_food_info', receiveFoodInfoRouter);
+app.use('/raspberryPi', receiveRaspberryPiRouter);
+app.use('/regist_serial_number', registSerialNumberRouter);
+app.use('/get_user_nutrian_info', getUserNutrianInfoRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -46,19 +58,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//app.use(
-//  createProxyMiddleware('/', {
-//    target: "http://192.168.45.52:3000/",
-//    changeOrigin: true
-//  })
-//);
 
 module.exports = app;
-//module.exports = function(app){
-//  app.use(
-//    createProxyMiddleware('/', {
-//      target: "http://localhost:3000/",
-//      changeOrigin: true
-//    })
-//  );
-//};

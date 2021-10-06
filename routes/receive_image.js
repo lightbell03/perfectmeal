@@ -1,18 +1,11 @@
-const express = require('express');
-const bodyParser = require("body-parser");
-const fs = require("fs");
-const spawn = require('child_process').spawn;
-const multer = require('multer');
-const mysql = require("mysql");
+var express = require('express');
+var bodyParser = require("body-parser");
+var fs = require("fs");
+var spawn = require('child_process').spawn;
+var multer = require('multer');
+var con = require("./sqlcon");
 
-const router = express.Router();
-
-const con = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: "Lightbell03!",
-	database: "db_test"
-});
+var router = express.Router();
 
 router.use(bodyParser.urlencoded({limit: '15MB', extended: true}));
 router.use(bodyParser.json({limit: '15MB'}));
@@ -35,32 +28,28 @@ router.use(bodyParser.json({limit: '15MB'}));
 
 //const upload = multer({storage: storage});
 
-//router.post('/', function(req, res, next) {
-//	let user = req.body.user;
-//	let dataString = "";
-//	let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-//
-//	const python = spawn('python', ['./routes/index.py']);
-//
-//	python.stdout.on('data', function(data) {
-//	dataString = data.toString();
-//	let foodArray = dataString.split("\r\n");
-//	for(var i=0; i<foodArray.length - 1; i++){
-//		con.query("UPDATE use_food_db SET food" + (i+1) + " = " + "'" + foodArray[i] + "'" + " WHERE email = ?", [user], function(err){
-//			if(err){
-//				console.log(err);
-//				res.send({status: 'fail'});
-//			}
-//		});
-//	}
-//	fs.writeFile('./images/out.png', req.body.imgsource, 'base64', (image_save_err) => {
-//		if (image_save_err) console.log("Test");
-//	});
-//	res.send({status: 'success', food: dataString});
-//	});
-//	python.stdin.write(JSON.stringify(data));
-//	python.stdin.end();
-//});
+var date = new Date;
+var day = date.getDate();
+var month = date.getMonth() + 1;
+var year = date.getFullYear();
+if(day < 10) day = '0' + day;
+if(month < 10) month = '0' + month;
+var insertDate = (year + '-' + month + '-' + day);
+
+router.post('/', function(req, res, next) {
+	let dataString = "";
+	let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+	const python = spawn('python', ['./routes/index.py']);
+
+	python.stdout.on('data', function(data) {
+		dataString = data.toString();
+		res.send({status: 'success', food: dataString});
+	});
+
+	python.stdin.write(JSON.stringify(data));
+	python.stdin.end();
+});
 router.post("/", function(req, res) {
 	res.send({status : "success"});
 })
