@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
         }
     } catch(err) {
         console.log("db error");
-        res.send({status: err});
+        res.send({status: "errororororororororoorororo"});
         return false;
     }
 });
