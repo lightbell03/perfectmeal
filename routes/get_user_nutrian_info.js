@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
     var today = req.body.today;
     var user = req.body.userEmail;
 
-    const [todayTotalNutriRows] = ['heelo'];
+    const [todayTotalNutriRows] = [];
     const [todayBfNutriRows] = [];
     const [todayLnNutriRows]= [];
     const [todayDnNutriRows]= [];
@@ -26,6 +26,11 @@ router.post('/', async (req, res) => {
 
             if(isToday){
                 /*const*/ [todayTotalNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'total'`);
+                if(todayTotalNutriRows.length === 0){
+                    res.send({status: "success", totalNutri: [], breakfast: undefined, lunch: undefined, dinner: undefined, etc: undefined,
+                            breakfastNutri: undefined, lunchNutri: undefined, dinnerNutri: undefined, etcNutri: undefined});
+                    return;
+                }
                 /*const*/ [todayBfNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'breakfast'`);
                 /*const*/ [todayLnNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'lunch'`);
                 /*const*/ [todayDnNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'dinner'`);
@@ -35,12 +40,6 @@ router.post('/', async (req, res) => {
                 /*const*/ [todayDnFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'dinner'`);
                 /*const*/ [todayEtFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'etc'`);
                 
-                if(todayTotalNutriRows.length === 0){
-                    res.send({status: 'success', totalNutri: [], breakfast: undefined, lunch: undefined, dinner: undefined, etc: undefined,
-                    breakfastNutri: undefined, lunchNutri: undefined, dinnerNutri: undefined, etcNutri: undefined});
-
-                    return;
-                }
                 let sendData = [];
                 for(let key in todayTotalNutriRows[0]){
                     if(key === 'division' || key === 'date')
