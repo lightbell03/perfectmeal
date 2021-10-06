@@ -63,7 +63,7 @@ router.post('/', async (req, res) => {
         }
     } catch(err) {
         console.log("db error");
-        res.send({status: todayTotalNutriRows});
+        res.send({status: "tets"});
         return false;
     }
 });
