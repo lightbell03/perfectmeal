@@ -1,5 +1,4 @@
 var express = require("express");
-var con = require("./sqlcon");
 
 var router = express.Router();
 

@@ -3,7 +3,6 @@ var bodyParser = require("body-parser");
 var fs = require("fs");
 var spawn = require('child_process').spawn;
 var multer = require('multer');
-var con = require("./sqlcon");
 
 var router = express.Router();
 

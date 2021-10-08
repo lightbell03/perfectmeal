@@ -1,4 +1,4 @@
-const express = require("express");
+/*const express = require("express");
 const con = require("./sqlcon");
 var router = express.Router();
 
@@ -11,4 +11,4 @@ router.post('/', function(req, res){
     })
 });
 
-module.exports = router
+module.exports = router*/

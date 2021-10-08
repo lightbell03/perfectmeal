@@ -1,6 +1,6 @@
 const mysql = require('mysql2/promise');
 
-var pool = mysql.createConnection({
+var pool = mysql.createPool({
     host: "us-cdbr-east-04.cleardb.com",
     user: "b279a5641ab7e3", 
     password: "2c01f496",

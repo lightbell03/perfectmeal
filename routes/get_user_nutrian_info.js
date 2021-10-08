@@ -9,15 +9,6 @@ router.post('/', async (req, res) => {
     var today = req.body.today;
     var user = req.body.userEmail;
 
-    const [todayTotalNutriRows] = [];
-    const [todayBfNutriRows] = [];
-    const [todayLnNutriRows]= [];
-    const [todayDnNutriRows]= [];
-    const [todayEtNutriRows]= [];
-    const [todayBfFoodRows]= [];
-    const [todayLnFoodRows] = [];
-    const [todayDnFoodRows] = [];
-    const [todayEtFoodRows] = [];
     try {
         const con = await pool.getConnection(async conn => conn);
     
@@ -31,14 +22,14 @@ router.post('/', async (req, res) => {
                             breakfastNutri: undefined, lunchNutri: undefined, dinnerNutri: undefined, etcNutri: undefined});
                     return;
                 }
-                /*const*/ [todayBfNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'breakfast'`);
-                /*const*/ [todayLnNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'lunch'`);
-                /*const*/ [todayDnNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'dinner'`);
-                /*const*/ [todayEtNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'etc'`);
-                /*const*/ [todayBfFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'breakfast'`);
-                /*const*/ [todayLnFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'lunch'`);
-                /*const*/ [todayDnFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'dinner'`);
-                /*const*/ [todayEtFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'etc'`);
+                const [todayBfNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'breakfast'`);
+                const [todayLnNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'lunch'`);
+                const [todayDnNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'dinner'`);
+                const [todayEtNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'etc'`);
+                const [todayBfFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'breakfast'`);
+                const [todayLnFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'lunch'`);
+                const [todayDnFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'dinner'`);
+                const [todayEtFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'etc'`);
                 
                 let sendData = [];
                 for(let key in todayTotalNutriRows[0]){
@@ -53,7 +44,13 @@ router.post('/', async (req, res) => {
                 sendData = null;
             }
             else{
-                
+                const [formerFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}'`);
+                if(formerFoodRows.length === 0){
+                    res.send({status: 'no food'});
+                    return
+                } else {
+                    res.send({status: 'success', formerfood_info: formerFoodRows});
+                }
             }
         } catch(err){
             console.log('DB error');
