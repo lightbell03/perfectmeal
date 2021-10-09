@@ -11,7 +11,6 @@ def read_in():
 def main():
     lines = read_in()
     np_lines = np.array(lines)
-    lines_sum = np.sum(np_lines)
     print("감자")
     print("고구마맛탕")
     print("햄버거")
