@@ -47,7 +47,7 @@ router.post('/', function(req, res, next) {
 
 	python.stdin.write(JSON.stringify(data));
 	python.stdin.end();
-	res.send({status: 'success', food: "감자\r\n고구마맛탕\r\n햄버거\r\n"});
+	//res.send({status: 'success', food: "감자\r\n고구마맛탕\r\n햄버거\r\n"});
 });
 
 module.exports = router;
