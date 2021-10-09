@@ -1,4 +1,4 @@
-import json, sys, io, numpy as np
+import json, sys, io
 
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
@@ -10,7 +10,6 @@ def read_in():
 
 def main():
     lines = read_in()
-    np_lines = np.array(lines)
     print("감자")
     print("고구마맛탕")
     print("햄버거")
