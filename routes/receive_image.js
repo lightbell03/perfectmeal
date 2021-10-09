@@ -38,15 +38,15 @@ router.post('/', function(req, res, next) {
 	let dataString = "";
 	let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-	//const python = spawn('python', ['./routes/index.py']);
+	const python = spawn('python', ['./routes/index.py']);
 
-	//python.stdout.on('data', function(data) {
-	//	dataString = data.toString();
-	//	res.send({status: 'success', food: dataString});
-	//});
-//
-	//python.stdin.write(JSON.stringify(data));
-	//python.stdin.end();
+	python.stdout.on('data', function(data) {
+		dataString = data.toString();
+		res.send({status: 'success', food: dataString});
+	});
+
+	python.stdin.write(JSON.stringify(data));
+	python.stdin.end();
 	res.send({status: 'success', food: "감자\r\n고구마맛탕\r\n햄버거\r\n"});
 });
 
