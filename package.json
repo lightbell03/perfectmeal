@@ -5,10 +5,6 @@
   "scripts": {
     "start": "nodemon ./bin/www"
   },
-  "procfile": {
-    "pipinstall": "pip install -r requirements.txt",
-    "web": "npm start"
-  },
   "dependencies": {
     "bcrypt": "5.0.1",
     "body-parser": "1.19.0",
