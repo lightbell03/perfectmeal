@@ -15,7 +15,7 @@ var usersRouter = require('./routes/users');
 var registerRouter = require('./routes/register');
 var receiveImageRouter = require("./routes/receive_image");
 var receiveFoodInfoRouter = require("./routes/receive_food_info");
-//var receiveRaspberryPiRouter = require("./routes/raspberryPi");
+var receiveRaspberryPiRouter = require("./routes/raspberryPi");
 var registSerialNumberRouter = require("./routes/regist_serial_number");
 var getUserNutrianInfoRouter = require("./routes/get_user_nutrian_info");
 
@@ -36,7 +36,7 @@ app.use('/users', usersRouter);
 app.use('/register', registerRouter);
 app.use('/receive_image', receiveImageRouter);
 app.use('/receive_food_info', receiveFoodInfoRouter);
-//app.use('/raspberryPi', receiveRaspberryPiRouter);
+app.use('/raspberryPi', receiveRaspberryPiRouter);
 app.use('/regist_serial_number', registSerialNumberRouter);
 app.use('/get_user_nutrian_info', getUserNutrianInfoRouter);
 
