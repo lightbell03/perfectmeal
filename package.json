@@ -21,6 +21,7 @@
     "mysql": "2.18.1",
     "mysql2": "2.3.0",
     "nodemon": "2.0.13",
+    "python-shell": "3.0.1",
     "read-excel-file": "5.2.10",
     "request": "2.88.2",
     "socket.io": "4.2.0"

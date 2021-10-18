@@ -27,26 +27,55 @@ router.use(bodyParser.json({limit: '15MB'}));
 
 //const upload = multer({storage: storage});
 
-var date = new Date;
-var day = date.getDate();
-var month = date.getMonth() + 1;
-var year = date.getFullYear();
-if(day < 10) day = '0' + day;
-if(month < 10) month = '0' + month;
-
 router.post('/', function(req, res, next) {
 	let dataString = "";
 	let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	var imageBase64 = req.body.imgsource;
+	
+	const python = spawn('python', ['./yolov5/index.py']);
 
-	const python = spawn('python', ['./routes/index.py']);
-
+	python.stdin.write(imageBase64);//(JSON.stringify(data));
+	
 	python.stdout.on('data', function(data) {
 		dataString = data.toString();
-		res.send({status: 'success', food: dataString});
+
 	});
 
-	python.stdin.write(JSON.stringify(data));
+	python.on('close', (code)=>{
+		res.send({status: 'success', food: dataString});
+	})
+
 	python.stdin.end();
+	
 });
 
+/*
+const express = require('express');
+const multer = require('multer');
+const bodyParser = require('body-parser');
+
+var router = express.Router();
+
+router.use(bodyParser.json());
+
+const storage = multer.diskStorage({
+  destination(req, file, callback) {
+    callback(null, '/');
+  },
+  filename(req, file, callback) {
+    callback(null, `test.jpg`);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+router.post('/', upload.array('photo', 2), (req , res) => {
+  var image = req.files;
+  console.log(req.files);
+  //console.log('body', req.body);
+  res.send({
+    status: 'success',
+  });
+});
+*/
 module.exports = router;
