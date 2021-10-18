@@ -3,6 +3,11 @@ const pool = require("./sqlpool");
 
 var router = express.Router();
 
+const ManAverNutri = [2301.5, 84.4, 56.8, 18.9, 298.1, 324.9, 24.0, 64.5, 571.6, 13.5, 3809.5, 2862.7, 13.0, 408.3,
+    1562.6, 1856.4, 15.2, 65.3];
+
+const IndexUnderNutri = [1, 3, 4, 14, 43, 6, 8, 7, 17, 20, 22, 17, 18, 29, 34, 35, 36, 42];
+
 router.post('/', async (req, res) => {
     var isToday = req.body.isToday;
     var today = req.body.today;
@@ -15,7 +20,7 @@ router.post('/', async (req, res) => {
             await con.beginTransaction();
 
             if(isToday){
-                /*const*/ [todayTotalNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'total'`);
+                [todayTotalNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'total'`);
                 if(todayTotalNutriRows.length === 0){
                     res.send({status: "success", totalNutri: [], breakfast: undefined, lunch: undefined, dinner: undefined, etc: undefined,
                             breakfastNutri: undefined, lunchNutri: undefined, dinnerNutri: undefined, etcNutri: undefined});
@@ -36,9 +41,16 @@ router.post('/', async (req, res) => {
                         continue;
                     sendData.push(todayTotalNutriRows[0][key]);
                 }
+                //부족 영양소 계산
+                let underNutriData = [];
+                for(let i=0; i<IndexUnderNutri.length; i++){
+                    let tmp = sendData[IndexUnderNutri[i]] - ManAverNutri[i];
+                    tmp = Number(tmp.toFixed(3));
+                    underNutriData.push(tmp);
+                }
 
                 res.send({status: "success", totalNutri: sendData, breakfast: todayBfFoodRows[0], lunch: todayLnFoodRows[0], dinner: todayDnFoodRows[0], etc: todayEtFoodRows[0],
-                            breakfastNutri: todayBfNutriRows[0], lunchNutri: todayLnNutriRows[0], dinnerNutri: todayDnNutriRows[0], etcNutri: todayEtNutriRows[0]});
+                            breakfastNutri: todayBfNutriRows[0], lunchNutri: todayLnNutriRows[0], dinnerNutri: todayDnNutriRows[0], etcNutri: todayEtNutriRows[0], underNutri: underNutriData});
                 
                 sendData = null;
             }

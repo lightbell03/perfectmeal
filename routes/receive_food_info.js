@@ -16,53 +16,79 @@ const NutrianToShow = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
                         0, 0, 0, 0, 0, 0];
 
+const ManAverNutri = [2301.5, 84.4, 56.8, 18.9, 298.1, 324.9, 24.0, 64.5, 571.6, 13.5, 3809.5, 2862.7, 13.0, 408.3,
+                      1562.6, 1856.4, 15.2, 65.3];
+
+const IndexUnderNutri = [1, 3, 4, 14, 43, 6, 8, 7, 17, 20, 22, 17, 18, 29, 34, 35, 36, 42];
+
 /*
-식품 중량(g)                food_Weight
-에너지(kcal)                energy_Qy
-수분(%)                     water_Qy
-단백질(g)                   prot_Qy	
-지질(g)	                    ntrfs_Qy	
-회분(g)	                    ashs_Qy	
-탄수화물(g)	                carbohydrate_Qy	
-총 당류(g)	                sugar_Qy	
-총 식이섬유(g)	            fibtg_Qy   
-총 아미노산(mg)	            aat19_Qy
-필수 아미노산(mg)	        aae10a_Qy
-비필수 아미노산(mg)	        aane_Qy
-총 지방산(g)	            fafref_Qy
-총 필수 지방산(g)	        faessf_Qy
-총 포화 지방산(g)	        fasatf_Qy
-총 단일 불포화 지방산(g)	 famsf_Qy
-총 다중 불포화 지방산(g)	 fapuf_Qy
-칼슘(mg)	                clci_Qy
-철(mg)	                    irn_Qy
-마그네슘(mg)	            mg_Qy
-인(mg)	                    phph_Qy
-칼륨(mg)	                ptss_Qy
-나트륨	(mg)                na_Qy
-아연(mg)	                zn_Qy
-구리(mg)	                cu_Qy
-망간(mg)	                mn_Qy
-셀레늄(μg)	                se_Qy
-몰리브덴(μg)	            mo_Qy
-요오드(μg)	                id_Qy
-레티놀(μg)	                rtnl_Qy
-베타카로틴(μg)	            catn_Qy
-비타민D(D2+D3)(μg)	        vitd_Qy
-비타민E(μg)	                vite_Qy
-비타민K1(μg)	            vitk1_Qy
-비타민B1(mg)	            vtmn_B1_Qy
-비타민B2(mg)	            vtmn_B2_Qy
-니아신(mg)	                nacn_Qy
-판토텐산(비타민B5)(mg)	    pantac_Qy
-비타민B6(mg)	            pyrxn_Qy
-비오틴(mg)	                biot_Qy
-엽산(μg)	                fol_Qy
-비타민B12(μg)	            vitb12_Qy
-비타민C(mg)	                vtmn_C_Qy
-콜레스테롤(mg)	            chole_Qy
-식염상당량(g)	            nacl_Qy
-폐기물(g)	                ref_Qy
+00 식품 중량(g)                food_Weight
+01 에너지(kcal)                energy_Qy
+02 수분(%)                     water_Qy
+03 단백질(g)                   prot_Qy	
+04 지질(g)	                    ntrfs_Qy	
+05 회분(g)	                    ashs_Qy	
+06 탄수화물(g)	                carbohydrate_Qy	
+07 총 당류(g)	                sugar_Qy	
+08 총 식이섬유(g)	            fibtg_Qy   
+09 총 아미노산(mg)	            aat19_Qy
+10 필수 아미노산(mg)	        aae10a_Qy
+11 비필수 아미노산(mg)	        aane_Qy
+12 총 지방산(g)	            fafref_Qy
+13 총 필수 지방산(g)	        faessf_Qy
+14 총 포화 지방산(g)	        fasatf_Qy
+15 총 단일 불포화 지방산(g)	 famsf_Qy
+16 총 다중 불포화 지방산(g)	 fapuf_Qy
+17 칼슘(mg)	                clci_Qy
+18 철(mg)	                    irn_Qy
+19 마그네슘(mg)	            mg_Qy
+20 인(mg)	                    phph_Qy
+21 칼륨(mg)	                ptss_Qy
+22 나트륨	(mg)                na_Qy
+23 아연(mg)	                zn_Qy
+24 구리(mg)	                cu_Qy
+25 망간(mg)	                mn_Qy
+26 셀레늄(μg)	                se_Qy
+27 몰리브덴(μg)	            mo_Qy
+28 요오드(μg)	                id_Qy
+29 레티놀(μg)-비타민A1	                rtnl_Qy
+30 베타카로틴(μg)	            catn_Qy
+31 비타민D(D2+D3)(μg)	        vitd_Qy
+32 비타민E(μg)	                vite_Qy
+33 비타민K1(μg)	            vitk1_Qy
+34 비타민B1(mg)	            vtmn_B1_Qy
+35 비타민B2(mg)	            vtmn_B2_Qy
+36 니아신(mg)	                nacn_Qy
+37 판토텐산(비타민B5)(mg)	    pantac_Qy
+38 비타민B6(mg)	            pyrxn_Qy
+39 비오틴(mg)	                biot_Qy
+40 엽산(μg)	                fol_Qy
+41 비타민B12(μg)	            vitb12_Qy
+42 비타민C(mg)	                vtmn_C_Qy
+43 콜레스테롤(mg)	            chole_Qy
+44 식염상당량(g)	            nacl_Qy
+45 폐기물(g)	                ref_Qy
+*/
+/*under nutrian list
+남자
+에너지
+단백질
+지방
+포화지방산
+콜레스테롤
+탄수화물
+식이섬유
+당
+칼슘
+인
+나트륨
+칼륨
+철	
+비타민A
+티아민 - 비타민 B1
+리보플라빈 - 비타민 B2
+나이아신
+비타민C
 */
 
 function GetFoodCode(foodName){
@@ -130,7 +156,14 @@ async function SendData(division, user, today){
                     continue;
                 sendData.push(totalNutriRows[0][key]);
             }
-            return {divisionFood: divisionRows[0], divisionNutri: divisionNutriRows[0], totalNutri: sendData}
+            //부족 영양소 계산
+            let underNutriData = [];
+            for(let i=0; i<IndexUnderNutri.length; i++){
+                let tmp = ManAverNutri[i] - sendData[IndexUnderNutri[i]];
+                tmp = Number(tmp.toFixed(3));
+                underNutriData.push(tmp);
+            }
+            return {divisionFood: divisionRows[0], divisionNutri: divisionNutriRows[0], totalNutri: sendData, underNtri: underNutriData};
         }catch(err){
             console.log(err);
             return null;
@@ -172,10 +205,12 @@ router.post('/', async (req, res) => {
             
             await con.query(`INSERT INTO ${user}_food_db (division, date, food1, food2, food3, food4, food5) VALUES (?, ?, ?, ?, ?, ?, ?)`, sqlInput);
 
+            //영양소 가져오는 부분
             for(let i=0; i<food.length; i++){                
                 const foodCode = await GetFoodCode(food[i]);
                 await CalFoodNutri(foodCode);
             }
+            
     
             await con.query(`INSERT INTO ${user}_nutrian_db (division, date, ${NutrianItem}) VALUES ('${division}', '${today}', ${NutrianToShow})`);
             
@@ -197,7 +232,7 @@ router.post('/', async (req, res) => {
                     let foodData = await SendData(division, user, today);
                     if(foodData == null)
                         throw foodData;
-                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri});
+                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
                     break;
                 }
                 case 'lunch':
@@ -205,7 +240,7 @@ router.post('/', async (req, res) => {
                     let foodData = await SendData(division, user, today);
                     if(foodData == null)
                         throw foodData;
-                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri});
+                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
                     break;
                 }
                 case 'dinner':
@@ -213,7 +248,7 @@ router.post('/', async (req, res) => {
                     let foodData = await SendData(division, user, today);
                     if(foodData == null)
                         throw foodData;
-                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri});
+                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
                     break;
                 }
                 case 'etc':
@@ -221,7 +256,7 @@ router.post('/', async (req, res) => {
                     let foodData = await SendData(division, user, today);
                     if(foodData == null)
                         throw foodData;
-                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri});
+                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
                     break;
                 }
             }

@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
               res.send({status: 'serialnumber'});
               return;
             } else {
-              const [userNutrianRows] = await con.query(`SELECT * FROM '${userEmail}_nutrian_db'`);
+              const [userNutrianRows] = await con.query(`SELECT * FROM ${userEmail}_nutrian_db`);
               res.send({status: 'success'});
               return;
             }   
