@@ -31,9 +31,6 @@ router.post('/', function(req, res, next) {
 	let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	//var imageBase64 = req.body.imgsource;
 
-	res.send({status: 'success', food: '감자'});
-	return;
-	console.log("test");
 	const python = spawn('python', ['./routes/index.py']);
 
 	python.stdin.write(data);//(JSON.stringify(data));
