@@ -2,7 +2,6 @@ var express = require('express');
 var bodyParser = require("body-parser");
 var fs = require("fs");
 var spawn = require('child_process').spawn;
-var multer = require('multer');
 
 var router = express.Router();
 
@@ -31,7 +30,7 @@ router.post('/', function(req, res, next) {
 	let dataString = "";
 	let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	//var imageBase64 = req.body.imgsource;
-	
+	console.log("test");
 	const python = spawn('python', ['./yolov5/index.py']);
 
 	python.stdin.write(data);//(JSON.stringify(data));
