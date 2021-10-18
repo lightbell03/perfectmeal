@@ -33,7 +33,7 @@ router.post('/', function(req, res, next) {
 
 	const python = spawn('python', ['./routes/index.py']);
 
-	python.stdin.write(data);//(JSON.stringify(data));
+	python.stdin.write(JSON.stringify(data));//(JSON.stringify(data));
 	
 	python.stdout.on('data', function(data) {
 		dataString = data.toString();
