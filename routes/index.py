@@ -6,7 +6,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
 def main():
-    imgString = sys.stdin.read()
+    ##imgString = sys.stdin.read()
     ##imgData = base64.b64decode(imgString)
     ##file = './images/test.jpg'
 ##
