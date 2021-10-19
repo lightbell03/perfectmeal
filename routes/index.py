@@ -16,7 +16,7 @@ def main():
     val_img_path = './images/test.jpg'
     ##sys.argv = ['--weights', './detect/k_v5m_epochs50_data20_img640.pt', '--img', 640, '--conf', 0.1, '--source', "{val_img_path}"];
     ##exec('detect.py');
-    subprocess.call([sys.executable, './yolov5/detect.py', '--weights', './detect/k_v5m_epochs50_data20_img640.pt', '--img', '640', '--conf', '0.1', '--source', val_img_path])
+    subprocess.call([sys.executable, './yolov5/detect.py', '--weights', './routes/k_v5m_epochs50_data20_img640.pt', '--img', '640', '--conf', '0.1', '--source', val_img_path])
     
     tmp = Image(os.path.join('./detect', os.path.basename(val_img_path)))
 
