@@ -1,2 +1,2 @@
 pipinstall: pip install -r requirements.txt
-web: npmn ./bin/www
+web: npm ./bin/www
