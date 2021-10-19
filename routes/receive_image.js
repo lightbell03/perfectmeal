@@ -31,7 +31,7 @@ router.post('/', function(req, res, next) {
 	let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	var imageBase64 = req.body.imgsource;
   var test="test";
-	const python = spawn('python', ['./yolov5/index.py']);
+	const python = spawn('python', ['./routes/index.py']);
 
 	python.stdin.write(imageBase64);//JSON.stringify(imageBase64));//(JSON.stringify(data));
 	
