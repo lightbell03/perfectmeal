@@ -21,8 +21,9 @@ def main():
     ##tmp = Image(os.path.join('./detect', os.path.basename(val_img_path)))
 
     print('감자')
-
-
+    print('감자')
+    print('감자')
+    print('감자')
 
 if __name__ == '__main__':
     main()
