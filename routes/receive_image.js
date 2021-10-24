@@ -30,14 +30,14 @@ router.post('/', function(req, res, next) {
 	let dataString = "";
 	let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	var imageBase64 = req.body.imgsource;
-  var test="test";
+
 	const python = spawn('python', ['./routes/index.py']);
 
 	python.stdin.write(imageBase64);//JSON.stringify(imageBase64));//(JSON.stringify(data));
 	
 	python.stdout.on('data', function(data) {
 		dataString = data.toString();
-
+    
 	});
 
 	python.on('close', (code)=>{

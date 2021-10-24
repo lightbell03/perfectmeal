@@ -19,7 +19,9 @@ const NutrianToShow = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 const ManAverNutri = [2301.5, 84.4, 56.8, 18.9, 298.1, 324.9, 24.0, 64.5, 571.6, 13.5, 3809.5, 2862.7, 13.0, 408.3,
                       1562.6, 1856.4, 15.2, 65.3];
 
-const IndexUnderNutri = [1, 3, 4, 14, 43, 6, 8, 7, 17, 20, 22, 17, 18, 29, 34, 35, 36, 42];
+const IndexUnderNutri = [0, 2, 3, 13, 42, 5, 7, 6, 16, 19, 21, 16, 17, 28, 33, 34, 35, 41];
+
+const foodIndex  = ['food1', 'food2', 'food3', 'food4', 'food5'];
 
 /*
 00 식품 중량(g)                food_Weight
@@ -146,7 +148,7 @@ async function SendData(division, user, today){
         const con = await pool.getConnection(async conn => conn);
 
         try{
-            const [divisionRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE division = '${division}' AND date = '${today}'`);
+            const [divisionRows] = await con.query(`SELECT ${foodIndex} FROM ${user}_food_db WHERE division = '${division}' AND date = '${today}'`);
             const [divisionNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE division = '${division}' AND date = '${today}'`);
             const [totalNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE division = 'total' AND date = '${today}'`);
 
@@ -163,7 +165,10 @@ async function SendData(division, user, today){
                 tmp = Number(tmp.toFixed(3));
                 underNutriData.push(tmp);
             }
-            return {divisionFood: divisionRows[0], divisionNutri: divisionNutriRows[0], totalNutri: sendData, underNtri: underNutriData};
+            
+            var divisionFood = Object.values(JSON.parse(JSON.stringify(divisionRows)));
+            var divisionNutri = Object.values(JSON.parse(JSON.stringify(divisionNutriRows)));
+            return {divisionFood: divisionFood[0], divisionNutri: divisionNutri[0], totalNutri: sendData, underNtri: underNutriData};
         }catch(err){
             console.log(err);
             return null;
@@ -188,6 +193,8 @@ router.post('/', async (req, res) => {
     const division = req.body.division;
     const food = req.body.food;
     const user = req.body.user;
+    const edit = req.body.edit;
+    const test = req.body.test;
     const sqlInput = [division, today];
 
     for(let i = 0; i < food.length; i++){
@@ -201,66 +208,74 @@ router.post('/', async (req, res) => {
         const con = await pool.getConnection(async conn => conn);
         
         try{
-            const [foodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE (division, date) = ('${division}', ${today})`);
-            
-            await con.query(`INSERT INTO ${user}_food_db (division, date, food1, food2, food3, food4, food5) VALUES (?, ?, ?, ?, ?, ?, ?)`, sqlInput);
+            if(edit == 'new'){
+                const [foodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE (division, date) = ('${division}', ${today})`);
+                
+                await con.query(`INSERT INTO ${user}_food_db (division, date, food1, food2, food3, food4, food5) VALUES (?, ?, ?, ?, ?, ?, ?)`, sqlInput);
 
-            //영양소 가져오는 부분
-            for(let i=0; i<food.length; i++){                
-                const foodCode = await GetFoodCode(food[i]);
-                await CalFoodNutri(foodCode);
-            }
-            
-    
-            await con.query(`INSERT INTO ${user}_nutrian_db (division, date, ${NutrianItem}) VALUES ('${division}', '${today}', ${NutrianToShow})`);
-            
-            const [nutrianRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE division = 'total' AND date = '${today}'`);
-            
-            if(nutrianRows.length === 0){
-                await con.query(`INSERT INTO ${user}_nutrian_db (division, date, ${NutrianItem}) VALUES ('total', '${today}', ${NutrianToShow})`);
-            }
-            else{
-                for(let i=0; i<NutrianItem.length; i++){
-                    await con.query(`UPDATE ${user}_nutrian_db SET ${NutrianItem[i]} = (SELECT * FROM (SELECT sum(${NutrianItem[i]}) FROM test_nutrian_db WHERE date = '${today}' AND division != 'total') as a) WHERE division = 'total' and date = '${today}'`)
+                //영양소 가져오는 부분
+                for(let i=0; i<food.length; i++){                
+                    const foodCode = await GetFoodCode(food[i]);
+                    await CalFoodNutri(foodCode);
                 }
-            }
+
+            
+                await con.query(`INSERT INTO ${user}_nutrian_db (division, date, ${NutrianItem}) VALUES ('${division}', '${today}', ${NutrianToShow})`);
+
+                const [nutrianRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE division = 'total' AND date = '${today}'`);
+
+                if(nutrianRows.length === 0){
+                    await con.query(`INSERT INTO ${user}_nutrian_db (division, date, ${NutrianItem}) VALUES ('total', '${today}', ${NutrianToShow})`);
+                }
+                else{
+                    for(let i=0; i<NutrianItem.length; i++){
+                        await con.query(`UPDATE ${user}_nutrian_db SET ${NutrianItem[i]} = (SELECT * FROM (SELECT sum(${NutrianItem[i]}) FROM test_nutrian_db WHERE date = '${today}' AND division != 'total') as a) WHERE division = 'total' and date = '${today}'`)
+                    }
+                }
 
 
-            switch(division){
-                case 'breakfast':
-                {
-                    let foodData = await SendData(division, user, today);
-                    if(foodData == null)
-                        throw foodData;
-                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
-                    break;
+                switch(division){
+                    case 'breakfast':
+                    {
+                        let foodData = await SendData(division, user, today);
+                        if(foodData == null)
+                            throw foodData;
+                        res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
+                        break;
+                    }
+                    case 'lunch':
+                    {
+                        let foodData = await SendData(division, user, today);
+                        if(foodData == null)
+                            throw foodData;
+                        res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
+                        break;
+                    }
+                    case 'dinner':
+                    {
+                        let foodData = await SendData(division, user, today);
+                        if(foodData == null)
+                            throw foodData;
+                        res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
+                        break;
+                    }
+                    case 'etc':
+                    {
+                        let foodData = await SendData(division, user, today);
+                        if(foodData == null)
+                            throw foodData;
+                        res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
+                        break;
+                    }
                 }
-                case 'lunch':
-                {
-                    let foodData = await SendData(division, user, today);
-                    if(foodData == null)
-                        throw foodData;
-                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
-                    break;
-                }
-                case 'dinner':
-                {
-                    let foodData = await SendData(division, user, today);
-                    if(foodData == null)
-                        throw foodData;
-                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
-                    break;
-                }
-                case 'etc':
-                {
-                    let foodData = await SendData(division, user, today);
-                    if(foodData == null)
-                        throw foodData;
-                    res.send({status: 'success', foodList: foodData.divisionFood, nutriList: foodData.divisionNutri, totalNutriList: foodData.totalNutri, underNutri: foodData.underNtri});
-                    break;
-                }
+                NutrianToShow.fill(0,0,45);
             }
-            NutrianToShow.fill(0,0,45);
+            else if(edit == 'add'){
+                
+            }
+            else if(edit == 'modify') {
+
+            }
         }catch(err){
             console.log("query error");
             console.log(err);

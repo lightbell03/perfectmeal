@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
 
         try {
             const [registRows] = await con.query(`SELECT * FROM db_test WHERE email = '${userEmail}'`);
-        
+            
             if(registRows.length === 0){
                 cryptPw = bcrypt.hashSync(password, 10);
                 await con.query(`INSERT INTO db_test (name, password, email, age, address, serialnumber) VALUES ('${userName}', '${cryptPw}', '${userEmail}', '${userAge}', '${userAddress}', '0')`);
@@ -44,7 +44,8 @@ router.post('/', async (req, res) => {
             } else {
                 res.send({status: '중복되는 이메일이 존재'});
             }
-        }catch{
+        }catch (err){
+            con
             res.send({status: 'query error'});
         }
 

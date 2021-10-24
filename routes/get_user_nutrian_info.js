@@ -6,7 +6,8 @@ var router = express.Router();
 const ManAverNutri = [2301.5, 84.4, 56.8, 18.9, 298.1, 324.9, 24.0, 64.5, 571.6, 13.5, 3809.5, 2862.7, 13.0, 408.3,
     1562.6, 1856.4, 15.2, 65.3];
 
-const IndexUnderNutri = [1, 3, 4, 14, 43, 6, 8, 7, 17, 20, 22, 17, 18, 29, 34, 35, 36, 42];
+const IndexUnderNutri = [0, 2, 3, 13, 42, 5, 7, 6, 16, 19, 21, 16, 17, 28, 33, 34, 35, 41];
+const foodIndex = ['food1', 'food2', 'food3', 'food4', 'food5'];
 
 router.post('/', async (req, res) => {
     var isToday = req.body.isToday;
@@ -30,10 +31,10 @@ router.post('/', async (req, res) => {
                 const [todayLnNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'lunch'`);
                 const [todayDnNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'dinner'`);
                 const [todayEtNutriRows] = await con.query(`SELECT * FROM ${user}_nutrian_db WHERE date = '${today}' and division = 'etc'`);
-                const [todayBfFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'breakfast'`);
-                const [todayLnFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'lunch'`);
-                const [todayDnFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'dinner'`);
-                const [todayEtFoodRows] = await con.query(`SELECT * FROM ${user}_food_db WHERE date = '${today}' and division = 'etc'`);
+                const [todayBfFoodRows] = await con.query(`SELECT ${foodIndex} FROM ${user}_food_db WHERE date = '${today}' and division = 'breakfast'`);
+                const [todayLnFoodRows] = await con.query(`SELECT ${foodIndex} FROM ${user}_food_db WHERE date = '${today}' and division = 'lunch'`);
+                const [todayDnFoodRows] = await con.query(`SELECT ${foodIndex} FROM ${user}_food_db WHERE date = '${today}' and division = 'dinner'`);
+                const [todayEtFoodRows] = await con.query(`SELECT ${foodIndex} FROM ${user}_food_db WHERE date = '${today}' and division = 'etc'`);
                 
                 let sendData = [];
                 for(let key in todayTotalNutriRows[0]){
@@ -48,9 +49,15 @@ router.post('/', async (req, res) => {
                     tmp = Number(tmp.toFixed(3));
                     underNutriData.push(tmp);
                 }
-
-                res.send({status: "success", totalNutri: sendData, breakfast: todayBfFoodRows[0], lunch: todayLnFoodRows[0], dinner: todayDnFoodRows[0], etc: todayEtFoodRows[0],
-                            breakfastNutri: todayBfNutriRows[0], lunchNutri: todayLnNutriRows[0], dinnerNutri: todayDnNutriRows[0], etcNutri: todayEtNutriRows[0], underNutri: underNutriData});
+                var breakfast = Object.values(JSON.parse(JSON.stringify(todayBfFoodRows)));
+                var lunch = Object.values(JSON.parse(JSON.stringify(todayLnFoodRows)));
+                var dinner = Object.values(JSON.parse(JSON.stringify(todayDnFoodRows)));
+                var breakfastNutri = Object.values(JSON.parse(JSON.stringify(todayBfNutriRows)));
+                var lunchNutri = Object.values(JSON.parse(JSON.stringify(todayLnNutriRows)));
+                var dinnerNutri = Object.values(JSON.parse(JSON.stringify(todayDnNutriRows)));
+                console.log(breakfast[0].food1);
+                res.send({status: "success", totalNutri: sendData, breakfast: breakfast[0], lunch: lunch[0], dinner: dinner[0], etc: todayEtFoodRows[0],
+                            breakfastNutri: breakfastNutri[0], lunchNutri: lunchNutri[0], dinnerNutri: dinnerNutri[0], etcNutri: todayEtNutriRows[0], underNutri: underNutriData});
                 
                 sendData = null;
             }
