@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
     var password = req.body.password;
     var userName = req.body.name;
     var userAge = req. body.age;
-    var userAddress = req.body.address;
+    var userGender = req.body.gender;
     var cryptPw = "";
 
     try{
@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
             
             if(registRows.length === 0){
                 cryptPw = bcrypt.hashSync(password, 10);
-                await con.query(`INSERT INTO db_test (name, password, email, age, address, serialnumber) VALUES ('${userName}', '${cryptPw}', '${userEmail}', '${userAge}', '${userAddress}', '0')`);
+                await con.query(`INSERT INTO db_test (name, password, email, age, gender, serialnumber) VALUES ('${userName}', '${cryptPw}', '${userEmail}', '${userAge}', '${userGender}', '0')`);
                 await con.query("CREATE TABLE " + userEmail + "_food_db (division VARCHAR(10) NOT NULL, date DATE NOT NULL,\
                                     food1 VARCHAR(45) NULL, food2 VARCHAR(45) NULL, food3 VARCHAR(45) NULL, food4 VARCHAR(45) NULL,\
                                     food5 VARCHAR(45) NULL)");

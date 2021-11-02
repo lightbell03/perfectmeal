@@ -4,7 +4,7 @@ const pool = require('./sqlpool');
 var route = express.Router();
 
 route.post('/', async (req, res) => {
-    var user = req.body.userEamil;
+    var user = req.body.userEmail;
     var user_serial_number = req.body.serial_number;
 
     try{
@@ -18,7 +18,9 @@ route.post('/', async (req, res) => {
                 if(!serialNumRows[0].used){
                     
                     await con.query(`UPDATE serial_number_db_tb SET used = ${true} WHERE serial_number='${user_serial_number}'`);
-                    await con.query(`UPDATE db_test SET serialnumber='${user_serial_number}' WHERE email = '${user}'`);
+                    await con.query(`UPDATE db_test SET serialnumber=${user_serial_number} WHERE email = '${user}'`);
+                    console.log(user);
+                    console.log(user_serial_number);
                     res.send({status: "success"});
                 } else {
                     res.send({status: 'used serial_number'});
